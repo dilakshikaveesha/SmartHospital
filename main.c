@@ -49,6 +49,18 @@ const int dailyPatientCaps[NUM_SPECIALTIES]={
 
 int bedOccupancy[NUM_WARDS][MAX_BEDS];
 
+
+char patientNames[MAX_PATIENTS][50];
+int patientAges[MAX_PATIENTS];
+int patientTriage[MAX_PATIENTS];
+int patientSpecialty[MAX_PATIENTS];
+int patientAdmitted[MAX_PATIENTS];
+int patientWard[MAX_PATIENTS];
+int patientDays[MAX_PATIENTS];
+int patientIds[MAX_PATIENTS];
+
+int patientCount = 0;
+
 int main(void)
 {
     printf("Smart Hospital & Resource Allocation System\n");
