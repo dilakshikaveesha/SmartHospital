@@ -61,6 +61,8 @@ int patientIds[MAX_PATIENTS];
 
 int patientCount = 0;
 
+void registerPatient(void);
+
 int main(void)
 {
     int choice;
@@ -80,10 +82,56 @@ int main(void)
 
     printf("Enter your choice:");
     scanf("%d",&choice);
+
+    if(choice == 1)
+    {
+        registerPatient();
+    }
     }
     while(choice!=6);
 
     printf("Thank you for using Smart Hospital System.\n");
 
     return 0;
+}
+
+
+void registerPatient(void)
+{
+    printf("\n---Register Patient---\n");
+
+    printf("Enter patient name :");
+    scanf(" %49[^\n]",patientNames[patientCount]);
+
+    printf("Enter patient age:");
+    scanf("%d",&patientAges[patientCount]);
+
+    printf("Enter triage level(1-Normal,2-Urgent,3-Critical):");
+    scanf("%d",&patientTriage[patientCount]);
+
+    printf("Enter specialty ID(1-4):");
+    scanf("%d",&patientSpecialty[patientCount]);
+
+    printf("Is admitted to ward?(1-Yes,0-No):");
+    scanf("%d",&patientAdmitted[patientCount]);
+
+    if(patientAdmitted[patientCount]==1)
+    {
+        printf("Enter ward ID (1-4):");
+        scanf("%d",&patientWard[patientCount]);
+
+        printf("Enter number of days admitted:");
+        scanf("%d",&patientDays[patientCount]);
+    }
+    else
+    {
+        patientWard[patientCount]=0;
+        patientDays[patientCount]=0;
+    }
+
+    patientIds[patientCount]=1001+patientCount;
+
+    patientCount++;
+
+    printf("Patient registered successfully.\n");
 }
