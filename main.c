@@ -63,7 +63,27 @@ int patientCount = 0;
 
 int main(void)
 {
+    int choice;
+
+    do{
+
+    printf("\n=============================================\n");
     printf("Smart Hospital & Resource Allocation System\n");
+    printf("===============================================\n");
+    printf("1.Register Patient\n");
+    printf("2.view Patient Records\n");
+    printf("3.View Bed Status\n");
+    printf("4.Display Patient Priority\n");
+    printf("5.Generate Reports\n");
+    printf("6.Exit\n");
+    printf("===============================================\n");
+
+    printf("Enter your choice:");
+    scanf("%d",&choice);
+    }
+    while(choice!=6);
+
+    printf("Thank you for using Smart Hospital System.\n");
 
     return 0;
 }
