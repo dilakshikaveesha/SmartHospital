@@ -72,6 +72,7 @@ int patientCount = 0;
 void registerPatient(void);
 int calculateWaitingTime(int specialty);
 int allocateBed(int ward);
+void viewBedStatus(void);
 
 float calculateSurcharge(int triage,float baseFee);
 float calculateWardCost(int ward,int days);
@@ -172,6 +173,10 @@ int main(void)
     else if(choice == 2)
     {
         viewPatientRecords();
+    }
+    else if(choice == 3)
+    {
+        viewBedStatus();
     }
     }
     while(choice!=6);
@@ -331,4 +336,36 @@ void viewPatientRecords(void)
 
         printf("--------------------------------------------------\n");
     }
+}
+void viewBedStatus(void)
+{
+    int ward;
+    int bed;
+
+    printf("\n=======================================================\n");
+    printf("                 BED STATUS\n");
+    printf("=========================================================\n");
+
+    for(ward = 0;ward <NUM_WARDS;ward++)
+    {
+        printf("\n%s\n",wardNames[ward]);
+        printf("------------------------------------------------------\n");
+
+        for(bed =0;bed<wardCapacities[ward];bed++)
+        {
+            printf("Bed %02d :",bed + 1);
+
+            if(bedOccupancy[ward][bed]==0)
+            {
+                printf("Available\n");
+            }
+            else
+            {
+                printf("Occupied\n");
+            }
+
+        }
+    }
+    printf("============================================================\n");
+
 }
