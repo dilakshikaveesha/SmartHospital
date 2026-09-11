@@ -64,13 +64,34 @@ int patientIds[MAX_PATIENTS];
 int patientCount = 0;
 
 void registerPatient(void);
+int calculateWaitingTime(int specialty);
+int allocateBed(int ward);
+
 int calculateWaitingTime(int specialty)
 {
     int index;
 
-    index= specialty-1;
+    index= specialty -1;
 
     return specialtyQueueCount[index]*consultationTimes[index];
+}
+int allocateBed(int ward)
+{
+    int wardIndex;
+    int bed;
+
+    wardIndex = ward -1;
+
+    for(bed =0;bed< wardCapacities[wardIndex];bed++)
+    {
+        if(bedOccupancy[wardIndex][bed]==0)
+        {
+            bedOccupancy[wardIndex][bed]=1;
+
+            return bed+1;
+        }
+    }
+    return 0;
 }
 
 int main(void)
@@ -109,6 +130,7 @@ int main(void)
 void registerPatient(void)
 {
     int waitingTime;
+    int bedNumber;
     printf("\n---Register Patient---\n");
 
     printf("Enter patient name :");
@@ -136,6 +158,17 @@ void registerPatient(void)
     {
         printf("Enter ward ID (1-4):");
         scanf("%d",&patientWard[patientCount]);
+
+        bedNumber = allocateBed(patientWard[patientCount]);
+
+        if(bedNumber == 0)
+        {
+            printf("No beds available in the selected ward.\n");
+        }
+        else
+        {
+            printf("Bed allocated successfully.Bed #%02d\n",bedNumber);
+        }
 
         printf("Enter number of days admitted:");
         scanf("%d",&patientDays[patientCount]);
