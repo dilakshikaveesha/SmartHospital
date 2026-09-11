@@ -49,6 +49,8 @@ const int dailyPatientCaps[NUM_SPECIALTIES]={
 
 int bedOccupancy[NUM_WARDS][MAX_BEDS];
 
+int specialtyQueueCount[NUM_SPECIALTIES]={0};
+
 
 char patientNames[MAX_PATIENTS][50];
 int patientAges[MAX_PATIENTS];
@@ -62,6 +64,14 @@ int patientIds[MAX_PATIENTS];
 int patientCount = 0;
 
 void registerPatient(void);
+int calculateWaitingTime(int specialty)
+{
+    int index;
+
+    index= specialty-1;
+
+    return specialtyQueueCount[index]*consultationTimes[index];
+}
 
 int main(void)
 {
@@ -98,6 +108,7 @@ int main(void)
 
 void registerPatient(void)
 {
+    int waitingTime;
     printf("\n---Register Patient---\n");
 
     printf("Enter patient name :");
@@ -109,8 +120,14 @@ void registerPatient(void)
     printf("Enter triage level(1-Normal,2-Urgent,3-Critical):");
     scanf("%d",&patientTriage[patientCount]);
 
-    printf("Enter specialty ID(1-4):");
+    printf("Enter specialty (1-4):");
     scanf("%d",&patientSpecialty[patientCount]);
+
+    waitingTime = calculateWaitingTime(patientSpecialty[patientCount]);
+
+    printf("Estimated Waiting Time :%d minutes\n",waitingTime);
+
+    specialtyQueueCount[patientSpecialty[patientCount]-1]++;
 
     printf("Is admitted to ward?(1-Yes,0-No):");
     scanf("%d",&patientAdmitted[patientCount]);
