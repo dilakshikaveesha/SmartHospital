@@ -213,6 +213,12 @@ void registerPatient(void)
     float discount;
     float finalAmount;
 
+    if(patientCount >= MAX_PATIENTS)
+    {
+        printf("Maximum patient limit reached.\n");
+        return;
+    }
+
     printf("\n---Register Patient---\n");
 
     printf("Enter patient name :");
@@ -383,6 +389,7 @@ void viewPatientRecords(void)
         printf("Name             : %s\n",patientNames[i]);
         printf("Age              : %d\n",patientAges[i]);
         printf("Triage Level     : %d\n",patientTriage[i]);
+        printf("Bed Number       : %d\n",patientBedNumbers[i]);
 
         printf("Specialty        : %s\n",specialtyNames[patientSpecialty[i]-1]);
 
