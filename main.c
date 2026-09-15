@@ -67,12 +67,17 @@ int patientWard[MAX_PATIENTS];
 int patientDays[MAX_PATIENTS];
 int patientIds[MAX_PATIENTS];
 
+float patientDiscounts[MAX_PATIENTS];
+float patientFinalAmounts[MAX_PATIENTS];
+
 int patientCount = 0;
 
 void registerPatient(void);
 int calculateWaitingTime(int specialty);
 int allocateBed(int ward);
 void viewBedStatus(void);
+void displayPatientPriority(void);
+void generateReports(void);
 
 float calculateSurcharge(int triage,float baseFee);
 float calculateWardCost(int ward,int days);
@@ -178,6 +183,14 @@ int main(void)
     {
         viewBedStatus();
     }
+    else if(choice == 4)
+    {
+        displayPatientPriority();
+    }
+    else if(choice == 5)
+    {
+        generateReports();
+    }
     }
     while(choice!=6);
 
@@ -212,6 +225,12 @@ void registerPatient(void)
 
     printf("Enter specialty (1-4):");
     scanf("%d",&patientSpecialty[patientCount]);
+
+    if(specialtyQueueCount[patientSpecialty[patientCount] - 1] >= dailyPatientCaps[patientSpecialty[patientCount]-1])
+    {
+        printf("Daily patient limit reached for this specialty.\n");
+        return;
+    }
 
     waitingTime = calculateWaitingTime(patientSpecialty[patientCount]);
 
@@ -274,6 +293,9 @@ void registerPatient(void)
 
     finalAmount = grossTotal - discount;
 
+    patientDiscounts[patientCount]= discount;
+    patientFinalAmounts[patientCount]=finalAmount;
+
     printf("\n============================================\n");
     printf("SMART HOSPITAL ADMISSION & BILL\n");
     printf("==============================================\n");
@@ -311,6 +333,7 @@ void viewPatientRecords(void)
         printf("No patient records available.\n");
         return;
     }
+
     for(i =0; i< patientCount; i++)
     {
         printf("\nPatient ID     : %d\n",patientIds[i]);
@@ -335,6 +358,45 @@ void viewPatientRecords(void)
         }
 
         printf("--------------------------------------------------\n");
+    }
+}
+void displayPatientPriority(void)
+{
+    int i;
+    int j;
+    int priorityOrder[MAX_PATIENTS];
+
+    if(patientCount == 0)
+    {
+        printf("No patient records available.\n");
+        return;
+    }
+    for(i=0;i<patientCount; i++)
+    {
+        priorityOrder[i]=i;
+    }
+    for(i=0; i< patientCount -1;i++)
+    {
+        for(j = 0;j<patientCount -1-i; j++)
+        {
+            if(patientTriage[priorityOrder[j]]<patientTriage[priorityOrder[j+1]])
+            {
+                int temp = priorityOrder[j];
+                priorityOrder[j] = priorityOrder[j+1];
+                priorityOrder[j+1]= temp;
+            }
+        }
+    }
+
+    for(i=0;i<patientCount; i++)
+    {
+        int index = priorityOrder[i];
+
+        printf("\nPatient ID : %d\n",patientIds[index]);
+        printf("Name         : %s\n",patientNames[index]);
+        printf("Age          : %d\n",patientAges[index]);
+        printf("Triage       : %d\n",patientTriage[index]);
+        printf("--------------------------------------\n");
     }
 }
 void viewBedStatus(void)
@@ -367,5 +429,79 @@ void viewBedStatus(void)
         }
     }
     printf("============================================================\n");
-
 }
+void generateReports(void)
+{
+    int normalCount = 0;
+    int urgentCount = 0;
+    int criticalCount = 0;
+    int i;
+    int highestIndex = 0;
+
+    float totalRevenue = 0;
+    float totalDiscounts = 0;
+
+    printf("\n==========================================================\n");
+    printf("                HOSPITAL REPORTS\n");
+    printf("============================================================\n");
+
+  for(i=0; i < patientCount; i++)
+  {
+      if(patientTriage[i] == 1)
+      {
+          normalCount++;
+      }
+      else if(patientTriage[i]==2)
+      {
+          urgentCount++;
+      }
+      else if(patientTriage[i]==3)
+      {
+          criticalCount++;
+      }
+
+      totalRevenue += patientFinalAmounts[i];
+      totalDiscounts += patientDiscounts[i];
+  }
+
+  printf("\n---------Financial Summary------------\n");
+  printf("Total Revenue    : LKR %.2f\n",totalRevenue);
+  printf("Total Discounts  : LKR %.2f\n",totalDiscounts);
+
+  printf("\n-------------Bed Occupancy---------------\n");
+
+  for(i=0;i<NUM_WARDS;i++)
+  {
+      int occupiedBeds = 0;
+      float occupancyPercentage;
+
+      int bed;
+
+      for(bed = 0; bed< wardCapacities[i]; bed++)
+      {
+          if(bedOccupancy[i][bed]==1)
+          {
+              occupiedBeds++;
+          }
+      }
+
+      occupancyPercentage=(float)occupiedBeds / wardCapacities[i]* 100;
+      printf("%s  : %.2f%%\n",wardNames[i],occupancyPercentage);
+  }
+  for(i = 1;i < patientCount; i++)
+  {
+      if(patientFinalAmounts[i]>patientFinalAmounts[highestIndex])
+      {
+          highestIndex = i;
+      }
+  }
+  printf("\n---------Highest-Paying Patient--------\n");
+  printf("Patient Name     : %s\n",patientNames[highestIndex]);
+  printf("Total Bill       : LKR %.2f\n", patientFinalAmounts[highestIndex]);
+
+  printf("\n-------------Patient Count by Triage---------------\n");
+  printf("Normal    : %d\n", normalCount);
+  printf("Urgent    : %d\n", urgentCount);
+  printf("Critical  : %d\n", criticalCount);
+}
+
