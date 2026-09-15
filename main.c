@@ -223,12 +223,24 @@ void registerPatient(void)
     printf("Enter triage level(1-Normal,2-Urgent,3-Critical):");
     scanf("%d",&patientTriage[patientCount]);
 
+    if(patientTriage[patientCount] < 1||patientTriage[patientCount]> 3)
+    {
+        printf("Invalid triage level.Please enter 1,2,or 3.\n");
+        return;
+    }
+
     printf("Enter specialty (1-4):");
     scanf("%d",&patientSpecialty[patientCount]);
 
     if(specialtyQueueCount[patientSpecialty[patientCount] - 1] >= dailyPatientCaps[patientSpecialty[patientCount]-1])
     {
         printf("Daily patient limit reached for this specialty.\n");
+        return;
+    }
+
+    if(patientSpecialty[patientCount]<1||patientSpecialty[patientCount]>4)
+    {
+        printf("Invalid specialty.Please enter 1,2,3,or 4.\n");
         return;
     }
 
