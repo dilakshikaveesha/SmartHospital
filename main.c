@@ -65,6 +65,7 @@ int patientSpecialty[MAX_PATIENTS];
 int patientAdmitted[MAX_PATIENTS];
 int patientWard[MAX_PATIENTS];
 int patientDays[MAX_PATIENTS];
+int patientBedNumbers[MAX_PATIENTS];
 int patientIds[MAX_PATIENTS];
 
 float patientDiscounts[MAX_PATIENTS];
@@ -220,6 +221,12 @@ void registerPatient(void)
     printf("Enter patient age:");
     scanf("%d",&patientAges[patientCount]);
 
+    if(patientAges[patientCount]<0)
+    {
+        printf("Invalid age.Please enter a valid age.\n");
+        return;
+    }
+
     printf("Enter triage level(1-Normal,2-Urgent,3-Critical):");
     scanf("%d",&patientTriage[patientCount]);
 
@@ -253,6 +260,12 @@ void registerPatient(void)
     printf("Is admitted to ward?(1-Yes,0-No):");
     scanf("%d",&patientAdmitted[patientCount]);
 
+    if(patientAdmitted[patientCount]!= 0 &&patientAdmitted[patientCount]!=1)
+    {
+        printf("Invalid admission choice.Please enter 1 for Yes or 0 for No.\n");
+        return;
+    }
+
     if(patientAdmitted[patientCount]==1)
     {
         printf("Enter ward ID (1-4):");
@@ -264,17 +277,6 @@ void registerPatient(void)
             return;
         }
 
-        bedNumber = allocateBed(patientWard[patientCount]);
-
-        if(bedNumber == 0)
-        {
-            printf("No beds available in the selected ward.\n");
-        }
-        else
-        {
-            printf("Bed allocated successfully.Bed #%02d\n",bedNumber);
-        }
-
         printf("Enter number of days admitted:");
         scanf("%d",&patientDays[patientCount]);
 
@@ -283,11 +285,28 @@ void registerPatient(void)
             printf("Invalid number of days.Please enter a value greater than 0.\n");
             return;
         }
+
+        bedNumber = allocateBed(patientWard[patientCount]);
+
+        if(bedNumber == 0)
+        {
+            printf("No beds available in the selected ward.\n");
+            return;
+        }
+        else
+        {
+            patientBedNumbers[patientCount]= bedNumber;
+
+            printf("Bed allocated successfully.Bed #%02d\n",bedNumber);
+        }
+
+
     }
     else
     {
         patientWard[patientCount]=0;
         patientDays[patientCount]=0;
+        patientBedNumbers[patientCount]=0;
     }
 
     patientIds[patientCount]=1001+patientCount;
@@ -372,6 +391,8 @@ void viewPatientRecords(void)
             printf("Admitted      : Yes\n");
 
             printf("Ward          : %s\n",wardNames[patientWard[i]-1]);
+
+            printf("Bed Number    : %02d\n",patientBedNumbers[i]);
 
             printf("Days          : %d\n",patientDays[i]);
 
