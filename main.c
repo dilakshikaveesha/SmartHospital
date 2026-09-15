@@ -389,7 +389,7 @@ void viewPatientRecords(void)
         printf("Name             : %s\n",patientNames[i]);
         printf("Age              : %d\n",patientAges[i]);
         printf("Triage Level     : %d\n",patientTriage[i]);
-        printf("Bed Number       : %d\n",patientBedNumbers[i]);
+
 
         printf("Specialty        : %s\n",specialtyNames[patientSpecialty[i]-1]);
 
@@ -493,6 +493,12 @@ void generateReports(void)
 
     float totalRevenue = 0;
     float totalDiscounts = 0;
+
+    if(patientCount == 0)
+    {
+        printf("No patient records available.\n");
+        return;
+    }
 
     printf("\n==========================================================\n");
     printf("                HOSPITAL REPORTS\n");
