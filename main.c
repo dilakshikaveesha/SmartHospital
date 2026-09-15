@@ -409,6 +409,7 @@ void displayPatientPriority(void)
 {
     int i;
     int j;
+    int index;
     int priorityOrder[MAX_PATIENTS];
 
     if(patientCount == 0)
@@ -435,7 +436,7 @@ void displayPatientPriority(void)
 
     for(i=0;i<patientCount; i++)
     {
-        int index = priorityOrder[i];
+        index = priorityOrder[i];
 
         printf("\nPatient ID : %d\n",patientIds[index]);
         printf("Name         : %s\n",patientNames[index]);
