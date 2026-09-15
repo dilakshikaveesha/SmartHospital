@@ -258,6 +258,12 @@ void registerPatient(void)
         printf("Enter ward ID (1-4):");
         scanf("%d",&patientWard[patientCount]);
 
+        if(patientWard[patientCount]< 1 || patientWard[patientCount]>4)
+        {
+            printf("Invalid ward ID.Please enter 1,2,3 or 4.\n");
+            return;
+        }
+
         bedNumber = allocateBed(patientWard[patientCount]);
 
         if(bedNumber == 0)
@@ -271,6 +277,12 @@ void registerPatient(void)
 
         printf("Enter number of days admitted:");
         scanf("%d",&patientDays[patientCount]);
+
+        if(patientDays[patientCount] <= 0)
+        {
+            printf("Invalid number of days.Please enter a value greater than 0.\n");
+            return;
+        }
     }
     else
     {
