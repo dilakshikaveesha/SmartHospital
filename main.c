@@ -261,8 +261,6 @@ void registerPatient(void)
 
     printf("Estimated Waiting Time :%d minutes\n",waitingTime);
 
-    specialtyQueueCount[patientSpecialty[patientCount]-1]++;
-
     printf("Is admitted to ward?(1-Yes,0-No):");
     scanf("%d",&patientAdmitted[patientCount]);
 
@@ -365,6 +363,8 @@ void registerPatient(void)
     printf("Estimated Waiting Time   : %d minutes\n", waitingTime);
 
     printf("================================================\n");
+
+    specialtyQueueCount[patientSpecialty[patientCount]-1]++;
     patientCount++;
 
     printf("Patient registered successfully.\n");
