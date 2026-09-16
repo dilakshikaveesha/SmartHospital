@@ -245,15 +245,15 @@ void registerPatient(void)
     printf("Enter specialty (1-4):");
     scanf("%d",&patientSpecialty[patientCount]);
 
-    if(specialtyQueueCount[patientSpecialty[patientCount] - 1] >= dailyPatientCaps[patientSpecialty[patientCount]-1])
-    {
-        printf("Daily patient limit reached for this specialty.\n");
-        return;
-    }
-
     if(patientSpecialty[patientCount]<1||patientSpecialty[patientCount]>4)
     {
         printf("Invalid specialty.Please enter 1,2,3,or 4.\n");
+        return;
+    }
+
+    if(specialtyQueueCount[patientSpecialty[patientCount] - 1] >= dailyPatientCaps[patientSpecialty[patientCount]-1])
+    {
+        printf("Daily patient limit reached for this specialty.\n");
         return;
     }
 
