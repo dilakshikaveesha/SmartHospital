@@ -236,7 +236,7 @@ void registerPatient(void)
     printf("Enter patient age:");
     scanf("%d",&patientAges[patientCount]);
 
-    if(patientAges[patientCount]<0)
+    if(patientAges[patientCount]<= 0|| patientAges[patientCount]>120)
     {
         printf("Invalid age.Please enter a valid age.\n");
         return;
