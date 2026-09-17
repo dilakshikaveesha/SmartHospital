@@ -416,6 +416,7 @@ void viewPatientRecords(void)
         else
         {
             printf("Admitted      : No\n");
+            printf("Days          : 0\n");
         }
 
         printf("--------------------------------------------------\n");
