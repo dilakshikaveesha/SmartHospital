@@ -192,6 +192,14 @@ int main(void)
     {
         generateReports();
     }
+    else if(choice == 6)
+    {
+        printf("Exiting the system...\n");
+    }
+    else
+    {
+        printf("Invalid choice.Please enetr a number between 1 and 6.\n");
+    }
     }
     while(choice!=6);
 
@@ -209,6 +217,7 @@ void registerPatient(void)
     float baseFee;
     float surcharge;
     float wardCost;
+
     float grossTotal;
     float discount;
     float finalAmount;
