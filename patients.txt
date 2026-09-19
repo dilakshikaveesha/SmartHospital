@@ -82,3 +82,15 @@ Bed Number: 1
 Discount: 0.00
 Final Amount: 5500.00
 ---------------------------------
+Patient ID: 1002
+Name: dulmini
+Age: 22
+Triage: 1
+Specialty: 1
+Admitted: 1
+Ward: 1
+Days: 1
+Bed Number: 1
+Discount: 0.00
+Final Amount: 4500.00
+---------------------------------
