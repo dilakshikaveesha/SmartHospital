@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #define MAX_PATIENTS 100
 #define NUM_SPECIALTIES 4
@@ -73,12 +74,15 @@ float patientFinalAmounts[MAX_PATIENTS];
 
 int patientCount = 0;
 
+FILE *file;
+
 void registerPatient(void);
 int calculateWaitingTime(int specialty);
 int allocateBed(int ward);
 void viewBedStatus(void);
 void displayPatientPriority(void);
 void generateReports(void);
+void loadPatientsFromFile(void);
 
 float calculateSurcharge(int triage,float baseFee);
 float calculateWardCost(int ward,int days);
@@ -86,6 +90,8 @@ float calculateGrossTotal(float baseFee,float surcharge,float wardCost);
 float calculateDiscount(int age,float grossTotal);
 
 void viewPatientRecords(void);
+void savePatientToFile(int index);
+
 
 int calculateWaitingTime(int specialty)
 {
@@ -151,10 +157,52 @@ float calculateDiscount(int age,float grossTotal)
         return 0;
     }
 }
+void loadPatientsFromFile(void)
+{
+    file = fopen("patients.txt","r");
+
+    if(file == NULL)
+    {
+        return;
+    }
+    while(patientCount < MAX_PATIENTS && fscanf(file,"patient ID: %d\n",
+                                                &patientIds[patientCount])== 1)
+
+    {
+        fscanf(file,"Name: %49[^\n]\n",patientNames[patientCount]);
+
+        fscanf(file,"Age: %d\n",&patientAges[patientCount]);
+
+        fscanf(file,"Triage: %d\n",&patientTriage[patientCount]);
+
+        fscanf(file,"Specialty: %d\n",&patientSpecialty[patientCount]);
+
+        fscanf(file,"Admitted: %d\n",&patientAdmitted[patientCount]);
+
+        fscanf(file,"Ward: %d\n",&patientWard[patientCount]);
+
+        fscanf(file,"Days: %d\n",&patientDays[patientCount]);
+
+        fscanf(file,"Bed Number: %d\n",&patientBedNumbers[patientCount]);
+
+        fscanf(file,"Discount: %f\n",&patientDiscounts[patientCount]);
+
+        fscanf(file,"Final Amount: %f\n",&patientFinalAmounts[patientCount]);
+
+        fscanf(file,"--------------------------------------------------\n");
+
+        patientCount++;
+
+    }
+    fclose(file);
+}
+
 
 int main(void)
 {
     int choice;
+
+    loadPatientsFromFile();
 
     do{
 
@@ -374,9 +422,52 @@ void registerPatient(void)
     printf("================================================\n");
 
     specialtyQueueCount[patientSpecialty[patientCount]-1]++;
+
+    savePatientToFile(patientCount);
     patientCount++;
 
     printf("Patient registered successfully.\n");
+}
+
+void savePatientToFile(int index)
+{
+    file = fopen("patients.txt","a");
+
+    if(file == NULL)
+    {
+        printf("File could not be opened.\n");
+        return;
+    }
+
+    fprintf(file,
+            "Patient ID: %d\n"
+            "Name: %s\n"
+            "Age: %d\n"
+            "Triage: %d\n"
+            "Specialty: %d\n"
+            "Admitted: %d\n"
+            "Ward: %d\n"
+            "Days: %d\n"
+            "Bed Number: %d\n"
+            "Discount: %.2f\n"
+            "Final Amount: %.2f\n"
+            "---------------------------------\n",
+
+            patientIds[index],
+            patientNames[index],
+            patientAges[index],
+            patientTriage[index],
+            patientSpecialty[index],
+            patientAdmitted[index],
+            patientWard[index],
+            patientDays[index],
+            patientBedNumbers[index],
+            patientDiscounts[index],
+            patientFinalAmounts[index]);
+
+    fclose(file);
+
+    printf("Patient record saved to file successfully.\n");
 }
 void viewPatientRecords(void)
 {
@@ -573,4 +664,6 @@ void generateReports(void)
   printf("Urgent    : %d\n", urgentCount);
   printf("Critical  : %d\n", criticalCount);
 }
+
+
 
