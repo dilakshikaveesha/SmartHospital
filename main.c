@@ -165,7 +165,7 @@ void loadPatientsFromFile(void)
     {
         return;
     }
-    while(patientCount < MAX_PATIENTS && fscanf(file,"patient ID: %d\n",
+    while(patientCount < MAX_PATIENTS && fscanf(file,"Patient ID: %d\n",
                                                 &patientIds[patientCount])== 1)
 
     {
@@ -189,7 +189,15 @@ void loadPatientsFromFile(void)
 
         fscanf(file,"Final Amount: %f\n",&patientFinalAmounts[patientCount]);
 
-        fscanf(file,"--------------------------------------------------\n");
+        fscanf(file,"--------------------------------------\n");
+
+        if(patientAdmitted[patientCount] == 1)
+        {
+            bedOccupancy[patientWard[patientCount]- 1]
+                        [patientBedNumbers[patientCount]-1]=1;
+        }
+
+        specialtyQueueCount[patientSpecialty[patientCount]-1]++;
 
         patientCount++;
 

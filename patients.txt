@@ -1,0 +1,84 @@
+Patient ID: 1001
+Name: dilakshi
+Age: 23
+Triage: 1
+Specialty: 1
+Admitted: 1
+Ward: 3
+Days: 4
+Bed Number: 1
+Discount: 0.00
+Final Amount: 49500.00
+---------------------------------
+Patient ID: 1002
+Name: sithum
+Age: 34
+Triage: 2
+Specialty: 2
+Admitted: 1
+Ward: 1
+Days: 2
+Bed Number: 1
+Discount: 0.00
+Final Amount: 9000.00
+---------------------------------
+Patient ID: 1001
+Name: rivinu
+Age: 17
+Triage: 1
+Specialty: 3
+Admitted: 1
+Ward: 3
+Days: 3
+Bed Number: 1
+Discount: 0.00
+Final Amount: 40500.00
+---------------------------------
+Patient ID: 1002
+Name: diwanjana
+Age: 34
+Triage: 2
+Specialty: 3
+Admitted: 0
+Ward: 0
+Days: 0
+Bed Number: 0
+Discount: 0.00
+Final Amount: 5400.00
+---------------------------------
+Patient ID: 1002
+Name: sewni
+Age: 78
+Triage: 1
+Specialty: 2
+Admitted: 1
+Ward: 1
+Days: 1
+Bed Number: 1
+Discount: 825.00
+Final Amount: 4675.00
+---------------------------------
+Patient ID: 1003
+Name: wasantha
+Age: 45
+Triage: 1
+Specialty: 2
+Admitted: 1
+Ward: 1
+Days: 1
+Bed Number: 2
+Discount: 0.00
+Final Amount: 5500.00
+---------------------------------
+Patient ID: 1002
+Name: vinudi
+Age: 12
+Triage: 1
+Specialty: 2
+Admitted: 1
+Ward: 1
+Days: 1
+Bed Number: 1
+Discount: 0.00
+Final Amount: 5500.00
+---------------------------------
